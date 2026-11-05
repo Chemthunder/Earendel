@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "earendel:item/drive_overlay",
+    "layer1": "earendel:item/drive"
+  }
+}

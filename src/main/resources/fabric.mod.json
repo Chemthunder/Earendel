@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "earendel",
+	"version": "${version}",
+	"name": "Earendel",
+	"description": "FARTHER THAN MAN HAS EVER DREAMT.",
+	"authors": [
+		"Chemthunder"
+	],
+	"license": "ARR",
+	"icon": "assets/earendel/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"gay.chemthunder.earendel.core.Earendel"
+		],
+		"client": [
+			"gay.chemthunder.earendel.core.EarendelClient"
+		],
+		"fabric-datagen": [
+			"gay.chemthunder.earendel.datagen.EarendelDataGenerator"
+		]
+	},
+	"mixins": [
+		"earendel.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

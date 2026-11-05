@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "earendel:item/drive",
+    "tints": [
+      {
+        "type": "earendel:signal_tinter"
+      }
+    ]
+  }
+}
