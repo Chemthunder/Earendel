@@ -1,7 +1,7 @@
 package gay.chemthunder.earendel.core.index;
 
 import gay.chemthunder.earendel.core.Earendel;
-import gay.chemthunder.earendel.core.util.SignalFlag;
+import gay.chemthunder.earendel.core.signal.SignalFlag;
 import net.minecraft.core.Registry;
 
 import java.util.Objects;

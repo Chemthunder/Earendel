@@ -1,12 +1,10 @@
 package gay.chemthunder.earendel.core.item;
 
-import gay.chemthunder.earendel.core.client.screen.SignalScreen;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
-import gay.chemthunder.earendel.core.util.Signal;
+import gay.chemthunder.earendel.core.signal.Signal;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

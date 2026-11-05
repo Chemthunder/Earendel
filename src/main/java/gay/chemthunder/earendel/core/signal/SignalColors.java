@@ -1,4 +1,4 @@
-package gay.chemthunder.earendel.core.util;
+package gay.chemthunder.earendel.core.signal;
 
 import java.util.List;
 

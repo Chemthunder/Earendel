@@ -6,7 +6,7 @@ import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
-import gay.chemthunder.earendel.core.util.Signal;
+import gay.chemthunder.earendel.core.signal.Signal;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;

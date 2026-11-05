@@ -1,6 +1,7 @@
 package gay.chemthunder.earendel.core.index;
 
 import gay.chemthunder.earendel.core.Earendel;
+import gay.chemthunder.earendel.core.block.InterceptorBlock;
 import gay.chemthunder.earendel.core.block.TransmitterBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -20,6 +21,11 @@ public interface EBlocks {
     Block TRANSMITTER = index.register("transmitter", new TransmitterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
             .sound(SoundType.COPPER_BULB)
             .setId(ResourceKey.create(Registries.BLOCK, index.id("transmitter")))
+    ));
+
+    Block INTERCEPTOR = index.register("interceptor", new InterceptorBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+            .sound(SoundType.COPPER_BULB)
+            .setId(ResourceKey.create(Registries.BLOCK, index.id("interceptor")))
     ));
 
     static void init() {}

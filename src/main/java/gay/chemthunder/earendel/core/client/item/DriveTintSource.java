@@ -2,7 +2,7 @@ package gay.chemthunder.earendel.core.client.item;
 
 import com.mojang.serialization.MapCodec;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
-import gay.chemthunder.earendel.core.util.Signal;
+import gay.chemthunder.earendel.core.signal.Signal;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;

@@ -24,5 +24,9 @@ public interface EItems {
             .setId(ResourceKey.create(Registries.ITEM, index.id("transmitter")))
     ));
 
+    Item INTERCEPTOR = index.register("interceptor", new BlockItem(EBlocks.INTERCEPTOR, new Item.Properties()
+            .setId(ResourceKey.create(Registries.ITEM, index.id("interceptor")))
+    ));
+
     static void init() {}
 }

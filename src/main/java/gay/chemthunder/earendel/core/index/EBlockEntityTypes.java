@@ -1,10 +1,10 @@
 package gay.chemthunder.earendel.core.index;
 
 import gay.chemthunder.earendel.core.Earendel;
+import gay.chemthunder.earendel.core.block.entity.InterceptorBlockEntity;
 import gay.chemthunder.earendel.core.block.entity.TransmitterBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.chemthunder.arboreal.api.registration.Index;
 
@@ -17,6 +17,11 @@ public interface EBlockEntityTypes {
     BlockEntityType<TransmitterBlockEntity> TRANSMITTER = index.register("transmitter", FabricBlockEntityTypeBuilder.create(
             TransmitterBlockEntity::new,
             EBlocks.TRANSMITTER
+    ).build());
+
+    BlockEntityType<InterceptorBlockEntity> INTERCEPTOR = index.register("interceptor", FabricBlockEntityTypeBuilder.create(
+            InterceptorBlockEntity::new,
+            EBlocks.INTERCEPTOR
     ).build());
 
     static void init() {}

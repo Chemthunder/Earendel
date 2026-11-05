@@ -1,4 +1,4 @@
-package gay.chemthunder.earendel.core.util;
+package gay.chemthunder.earendel.core.signal;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

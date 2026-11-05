@@ -1,8 +1,8 @@
 package gay.chemthunder.earendel.core.client.screen;
 
 import gay.chemthunder.earendel.core.index.ERegistries;
-import gay.chemthunder.earendel.core.util.Signal;
-import gay.chemthunder.earendel.core.util.SignalFlag;
+import gay.chemthunder.earendel.core.signal.Signal;
+import gay.chemthunder.earendel.core.signal.SignalFlag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
