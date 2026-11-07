@@ -1,0 +1,21 @@
+{
+  "parent": "earendel:root",
+  "criteria": {
+    "e": {
+      "trigger": "earendel:etch_signal"
+    }
+  },
+  "display": {
+    "description": "Etch an intercepted Signal onto an empty Drive.",
+    "icon": {
+      "id": "earendel:drive"
+    },
+    "title": "A Starry Night"
+  },
+  "requirements": [
+    [
+      "e"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

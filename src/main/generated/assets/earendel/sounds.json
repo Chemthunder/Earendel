@@ -1,0 +1,7 @@
+{
+  "block.interceptor_ping": {
+    "sounds": [
+      "earendel:block/interceptor_ping"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 package gay.chemthunder.earendel.core.index;
 
+import gay.chemthunder.earendel.api.cosmic.SignalFlag;
 import gay.chemthunder.earendel.core.Earendel;
-import gay.chemthunder.earendel.core.signal.SignalFlag;
 import net.minecraft.core.Registry;
 
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public interface ESignalFlags {
     SignalFlag TWIN = register("twin", (signal -> {
-        int lastBit = 0;
+        int lastBit = 999;
 
         for (int bit : signal) {
             if (lastBit == bit) {

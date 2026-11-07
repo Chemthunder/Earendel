@@ -1,8 +1,8 @@
 package gay.chemthunder.earendel.core.client.item;
 
 import com.mojang.serialization.MapCodec;
+import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
-import gay.chemthunder.earendel.core.signal.Signal;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public record DriveTintSource() implements ItemTintSource {
                 return signal.color();
             }
         }
-        return 0;
+        return 0xFF000000;
     }
 
     public MapCodec<? extends ItemTintSource> type() {

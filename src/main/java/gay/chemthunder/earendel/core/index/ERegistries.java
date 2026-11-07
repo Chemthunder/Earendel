@@ -1,8 +1,8 @@
 package gay.chemthunder.earendel.core.index;
 
+import gay.chemthunder.earendel.api.cosmic.Monad;
+import gay.chemthunder.earendel.api.cosmic.SignalFlag;
 import gay.chemthunder.earendel.core.Earendel;
-import gay.chemthunder.earendel.core.signal.SignalFlag;
-import gay.chemthunder.earendel.core.signal.SignalSupplement;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.core.Registry;
@@ -17,8 +17,8 @@ public interface ERegistries {
             .attribute(RegistryAttribute.MODDED)
             .buildAndRegister();
 
-    ResourceKey<Registry<SignalSupplement>> SUPP_KEY = ResourceKey.createRegistryKey(Earendel.id("signal_supplements"));
-    Registry<SignalSupplement> SUPP = FabricRegistryBuilder.create(SUPP_KEY)
+    ResourceKey<Registry<Monad>> MONAD_KEY = ResourceKey.createRegistryKey(Earendel.id("monad"));
+    Registry<Monad> MONAD = FabricRegistryBuilder.create(MONAD_KEY)
             .attribute(RegistryAttribute.MODDED)
             .buildAndRegister();
 

@@ -1,6 +1,7 @@
-package gay.chemthunder.earendel.core.signal;
+package gay.chemthunder.earendel.core.util;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Chemthunder
@@ -15,4 +16,8 @@ public class SignalColors {
             0xFF00ffcc,
             0xFF0044ff
     );
+
+    public static int getRandom() {
+        return values.get(new Random().nextInt(0, values.size()));
+    }
 }

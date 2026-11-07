@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "e": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "earendel:gui/advancements/backgrounds/earendel",
+    "description": "Farther, farther than man has ever dreamt.",
+    "icon": {
+      "id": "minecraft:ender_eye"
+    },
+    "show_toast": false,
+    "title": "Earendel"
+  },
+  "requirements": [
+    [
+      "e"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

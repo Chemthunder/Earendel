@@ -1,12 +1,12 @@
 package gay.chemthunder.earendel.core.event;
 
+import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.block.TransmitterBlock;
 import gay.chemthunder.earendel.core.block.entity.TransmitterBlockEntity;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
-import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
+import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
-import gay.chemthunder.earendel.core.signal.Signal;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
@@ -75,6 +75,8 @@ public class TransmitterInteractionEvents {
                                 return InteractionResult.SUCCESS;
                             } else {
                                 transmitter.setFired(true);
+                                transmitter.keyTo(player);
+
                                 player.swing(hand, SwingAnimation.DEFAULT, true);
                                 level.playSound(
                                         null,
@@ -86,7 +88,7 @@ public class TransmitterInteractionEvents {
                                         1,
                                         0.4F
                                 );
-                                LevelUtil.grantCriterion(ETriggerTypes.BROADCAST_SIGNAL, player);
+                                LevelUtil.grantCriterion(ETriggerTypes.ETCH_SIGNAL, player);
                                 return InteractionResult.CONSUME;
                             }
                         } else {

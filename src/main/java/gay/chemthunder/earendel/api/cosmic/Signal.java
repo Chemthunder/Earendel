@@ -1,23 +1,38 @@
-package gay.chemthunder.earendel.core.signal;
+package gay.chemthunder.earendel.api.cosmic;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import gay.chemthunder.earendel.core.index.ERegistries;
+import gay.chemthunder.earendel.core.util.SignalColors;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author Chemthunder
  */
-public record Signal(List<Integer> bits, boolean encrypted, int color) implements Iterable<Integer> {
+public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color) implements Iterable<Integer> {
     public static final Integer MAX_BITS = 9;
 
-    public Signal(int[] freq, int color) {
-        this(Arrays.stream(freq).boxed().toList(), false, color);
+    public Signal(List<Integer> bits, ResourceKey<Biome> biomeKey) {
+        this(bits, biomeKey, SignalColors.getRandom());
+    }
+
+    public Signal(ResourceKey<Biome> biomeKey) {
+        List<Integer> bitList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            bitList.add(new Random().nextInt(-10, 10));
+        }
+        this(bitList, biomeKey, SignalColors.getRandom());
     }
 
     public static final Codec<Signal> CODEC = RecordCodecBuilder.create(codec -> codec.group(
@@ -25,30 +40,15 @@ public record Signal(List<Integer> bits, boolean encrypted, int color) implement
                     .listOf(1, MAX_BITS)
                     .fieldOf("bits")
                     .forGetter(Signal::bits),
-            Codec.BOOL
-                    .fieldOf("encrypted")
-                    .forGetter(Signal::encrypted),
-
+            ResourceKey.codec(Registries.BIOME)
+                    .fieldOf("biome")
+                    .forGetter(Signal::biomeKey),
             Codec.INT
                     .fieldOf("color")
                     .forGetter(Signal::color)
     ).apply(codec, Signal::new));
 
     public static final StreamCodec<ByteBuf, Signal> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
-
-    public static Signal generate() {
-        Random rand = new Random();
-        return new Signal(
-                new int[]{
-                        rand.nextInt(-10, 10),
-                        rand.nextInt(-10, 10),
-                        rand.nextInt(-10, 10),
-                        rand.nextInt(-10, 10),
-                        rand.nextInt(-10, 10)
-                },
-                SignalColors.values.get(new Random().nextInt(SignalColors.values.size()))
-        );
-    }
 
     public List<SignalFlag> getAcceptingFlags() {
         List<SignalFlag> list = new ArrayList<>();

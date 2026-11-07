@@ -1,8 +1,8 @@
 package gay.chemthunder.earendel.core.networking.clientbound;
 
+import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.Earendel;
 import gay.chemthunder.earendel.core.client.screen.SignalScreen;
-import gay.chemthunder.earendel.core.signal.Signal;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

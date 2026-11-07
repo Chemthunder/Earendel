@@ -12,7 +12,9 @@ import org.chemthunder.arboreal.api.registration.Index;
 public interface ETriggerTypes {
     Index<CriterionTrigger<?>> index = Earendel.MAIN.createIndex(BuiltInRegistries.TRIGGER_TYPES);
 
+    PlayerTrigger ETCH_SIGNAL = index.register("etch_signal", new PlayerTrigger());
     PlayerTrigger BROADCAST_SIGNAL = index.register("broadcast_signal", new PlayerTrigger());
+    PlayerTrigger MONAD = index.register("monad", new PlayerTrigger());
 
     static void init() {}
 }

@@ -1,7 +1,7 @@
 package gay.chemthunder.earendel.core.index;
 
+import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.Earendel;
-import gay.chemthunder.earendel.core.signal.Signal;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import org.chemthunder.arboreal.api.registration.Index;

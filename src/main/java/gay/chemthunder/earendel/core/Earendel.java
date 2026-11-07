@@ -1,14 +1,16 @@
 package gay.chemthunder.earendel.core;
 
+import gay.chemthunder.earendel.core.event.InterceptorInteractionEvents;
 import gay.chemthunder.earendel.core.event.TransmitterInteractionEvents;
 import gay.chemthunder.earendel.core.index.*;
-import gay.chemthunder.earendel.core.networking.EPacketNetwork;
+import gay.chemthunder.earendel.core.networking.clientbound.OpenInterceptorPayload;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
+import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.Identifier;
 import org.chemthunder.arboreal.api.Arboreal;
-import org.chemthunder.arboreal.api.networking.PacketNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,13 +33,22 @@ public class Earendel implements ModInitializer {
 		ETriggerTypes.init();
 
 		ERegistries.init();
-		ESignalFlags.init();
 
-		PacketNetwork.registerNetwork(new EPacketNetwork());
+		ESignalFlags.init();
+		EMonads.init();
+
+		ESoundEvents.init();
+		ECreativeModeTabs.init();
 
 		PayloadTypeRegistry.clientboundPlay().register(OpenSignalPayload.TYPE, OpenSignalPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(OpenInterceptorPayload.TYPE, OpenInterceptorPayload.CODEC);
+
+		PayloadTypeRegistry.serverboundPlay().register(ExtractSignalFromInterceptorPayload.TYPE, ExtractSignalFromInterceptorPayload.CODEC);
+
+		ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
 
 		TransmitterInteractionEvents.init();
+		InterceptorInteractionEvents.init();
 
 		LOGGER.info("Hello [1,-4,2,2,-6,-8,3]");
 	}

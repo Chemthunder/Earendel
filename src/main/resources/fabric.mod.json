@@ -19,6 +19,9 @@
 		],
 		"fabric-datagen": [
 			"gay.chemthunder.earendel.datagen.EarendelDataGenerator"
+		],
+		"cardinal-components": [
+			"gay.chemthunder.earendel.core.cca.ECCA"
 		]
 	},
 	"mixins": [
@@ -29,5 +32,10 @@
 		"minecraft": "~26.3",
 		"java": ">=25",
 		"fabric-api": "*"
+	},
+	"custom": {
+		"cardinal-components": [
+			"earendel:monad_manager"
+		]
 	}
 }

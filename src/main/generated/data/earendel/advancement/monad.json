@@ -1,0 +1,22 @@
+{
+  "parent": "earendel:broadcast_signal",
+  "criteria": {
+    "e": {
+      "trigger": "earendel:monad"
+    }
+  },
+  "display": {
+    "description": "Communicate with something beyond our solar system.",
+    "frame": "goal",
+    "icon": {
+      "id": "earendel:crying_resolve"
+    },
+    "title": "Amaze Amaze Amaze!"
+  },
+  "requirements": [
+    [
+      "e"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,4 +1,4 @@
-package gay.chemthunder.earendel.core.signal;
+package gay.chemthunder.earendel.api.cosmic;
 
 /**
  * @author Chemthunder

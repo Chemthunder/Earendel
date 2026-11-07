@@ -1,0 +1,21 @@
+{
+  "parent": "earendel:etch_signal",
+  "criteria": {
+    "e": {
+      "trigger": "earendel:broadcast_signal"
+    }
+  },
+  "display": {
+    "description": "Transmit an etched Signal back into space. Who knows what might hear you?",
+    "icon": {
+      "id": "earendel:transmitter"
+    },
+    "title": "A Song to the Stars"
+  },
+  "requirements": [
+    [
+      "e"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
