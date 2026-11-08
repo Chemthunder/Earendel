@@ -3,6 +3,8 @@ package gay.chemthunder.earendel.core.client.screen;
 import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.api.cosmic.SignalFlag;
 import gay.chemthunder.earendel.core.index.ERegistries;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -18,6 +20,7 @@ import java.util.Random;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class SignalScreen extends Screen {
     private final Minecraft minecraft;
 

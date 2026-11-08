@@ -3,6 +3,8 @@ package gay.chemthunder.earendel.core.client.item;
 import com.mojang.serialization.MapCodec;
 import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +14,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public record DriveTintSource() implements ItemTintSource {
     public static final MapCodec<DriveTintSource> MAP_CODEC = MapCodec.unit(new DriveTintSource());
 

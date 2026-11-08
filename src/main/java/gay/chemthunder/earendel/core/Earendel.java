@@ -3,6 +3,7 @@ package gay.chemthunder.earendel.core;
 import gay.chemthunder.earendel.core.event.InterceptorInteractionEvents;
 import gay.chemthunder.earendel.core.event.TransmitterInteractionEvents;
 import gay.chemthunder.earendel.core.index.*;
+import gay.chemthunder.earendel.core.networking.EPackets;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenInterceptorPayload;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
 import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
@@ -23,29 +24,23 @@ public class Earendel implements ModInitializer {
 	public static final Arboreal MAIN = new Arboreal(MOD_ID);
 
 	public void onInitialize() {
-//		SignalColors.route();
-
 		EItems.init();
 		EBlocks.init();
 
 		EBlockEntityTypes.init();
 		EDataComponentTypes.init();
 		ETriggerTypes.init();
+		EParticleTypes.init();
 
 		ERegistries.init();
+		ESoundEvents.init();
+		ECreativeModeTabs.init();
 
 		ESignalFlags.init();
 		EMonads.init();
 
-		ESoundEvents.init();
-		ECreativeModeTabs.init();
-
-		PayloadTypeRegistry.clientboundPlay().register(OpenSignalPayload.TYPE, OpenSignalPayload.CODEC);
-		PayloadTypeRegistry.clientboundPlay().register(OpenInterceptorPayload.TYPE, OpenInterceptorPayload.CODEC);
-
-		PayloadTypeRegistry.serverboundPlay().register(ExtractSignalFromInterceptorPayload.TYPE, ExtractSignalFromInterceptorPayload.CODEC);
-
-		ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
+		EPackets.typePayloads();
+		EPackets.receiveServerbound();
 
 		TransmitterInteractionEvents.init();
 		InterceptorInteractionEvents.init();

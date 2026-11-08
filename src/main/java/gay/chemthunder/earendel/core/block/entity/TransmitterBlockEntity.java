@@ -129,14 +129,6 @@ public class TransmitterBlockEntity extends BlockEntity {
         lastUserId = input.getInt("LastUserId").orElse(0);
     }
 
-    public int getBroadcastTime() {
-        return broadcastTime;
-    }
-
-    public boolean isFired() {
-        return fired;
-    }
-
     public void setFired(boolean fired) {
         this.fired = fired;
         this.setChanged();

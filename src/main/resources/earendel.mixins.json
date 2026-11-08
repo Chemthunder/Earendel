@@ -12,6 +12,7 @@
     "requireAnnotations": true
   },
   "client": [
-    "client.GuiGraphicsExtractorMixin"
+    "client.GuiGraphicsExtractorMixin",
+    "client.LevelRendererMixin"
   ]
 }

@@ -2,9 +2,12 @@ package gay.chemthunder.earendel.core.client.screen;
 
 import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.Earendel;
+import gay.chemthunder.earendel.core.EarendelClient;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.index.ESoundEvents;
 import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -34,6 +37,7 @@ import java.util.function.Function;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class InterceptorScreen extends Screen {
     private final Minecraft minecraft;
     private final ItemStack stack;
@@ -136,7 +140,7 @@ public class InterceptorScreen extends Screen {
         this.drawables.add(_ -> deploySignal);
         this.addRenderableWidget(deploySignal);
 
-        extractSignal = Button.builder(Component.literal("Extract"), (this::extractSignal))
+        extractSignal = Button.builder(Component.literal("Extract"), (_ -> this.onClose()))
                 .size(48, 48)
                 .pos((width / 2 - 24) + 32, height / 2 + 60)
                 .tooltip(Tooltip.create(Component.literal("Extracts the current Drive from the Interceptor.")))
@@ -154,10 +158,6 @@ public class InterceptorScreen extends Screen {
             this.waveOpacity = 1.0F;
             this.waveScale = 1;
         }
-    }
-
-    private void extractSignal(Button button) {
-        this.onClose();
     }
 
     public void onClose() {
@@ -196,6 +196,14 @@ public class InterceptorScreen extends Screen {
                         biomeHolder,
                         (width / 2) - (font.width(biomeHolder) / 2),
                         height / 2 - 60,
+                        0xFFffffff
+                );
+
+                graphics.text(
+                        font,
+                        Component.literal(EarendelClient.INTERCEPTOR_DISTANCE + "pc").withStyle(ChatFormatting.LIGHT_PURPLE),
+                        (width / 2) - (font.width(EarendelClient.INTERCEPTOR_DISTANCE + "pc") / 2),
+                        height / 2 + 40,
                         0xFFffffff
                 );
             }

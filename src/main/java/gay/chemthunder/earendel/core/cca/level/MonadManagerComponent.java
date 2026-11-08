@@ -57,13 +57,15 @@ public class MonadManagerComponent implements AutoSyncedComponent, CommonTicking
         return MonadManagerComponent.KEY.get(level);
     }
 
-    public void upload(Monad monad, Entity entity) {
+    public int upload(Monad monad, Entity entity) {
         List<Handler> export = new ArrayList<>(handlers);
-        export.add(new Handler(monad, entity.getId()));
+        Handler toAdd = new Handler(monad, entity.getId());
+        export.add(toAdd);
         handlers = export;
         sync();
 
         Earendel.LOGGER.info("Successfully uploaded {} to the Monad Manager.", monad.getId());
+        return toAdd.delay;
     }
 
     public void sync() {

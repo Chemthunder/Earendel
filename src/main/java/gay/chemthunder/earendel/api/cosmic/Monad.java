@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * @author Chemthunder
  */
+@SuppressWarnings("unused")
 public interface Monad {
     default List<ItemStack> getDroppableItems(Level level, @Nullable LivingEntity target) {
         return new ArrayList<>();

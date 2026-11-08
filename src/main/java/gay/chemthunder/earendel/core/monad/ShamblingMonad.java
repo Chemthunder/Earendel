@@ -17,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ShamblingMonad implements Monad {
     public void createBlessing(Level level, @Nullable LivingEntity target) {
-        Monad.super.createBlessing(level, target);
-
         if (target != null) {
             target.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 30 * 20));
         }
