@@ -20,11 +20,11 @@ import java.util.Random;
 /**
  * @author Chemthunder
  */
-public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color) implements Iterable<Integer> {
+public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color, boolean tweaked) implements Iterable<Integer> {
     public static final Integer MAX_BITS = 9;
 
     public Signal(List<Integer> bits, ResourceKey<Biome> biomeKey) {
-        this(bits, biomeKey, SignalColors.getRandom());
+        this(bits, biomeKey, SignalColors.getRandom(), false);
     }
 
     public Signal(ResourceKey<Biome> biomeKey) {
@@ -32,7 +32,7 @@ public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color)
         for (int i = 0; i < 5; i++) {
             bitList.add(new Random().nextInt(-10, 10));
         }
-        this(bitList, biomeKey, SignalColors.getRandom());
+        this(bitList, biomeKey, SignalColors.getRandom(), false);
     }
 
     public static final Codec<Signal> CODEC = RecordCodecBuilder.create(codec -> codec.group(
@@ -45,7 +45,10 @@ public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color)
                     .forGetter(Signal::biomeKey),
             Codec.INT
                     .fieldOf("color")
-                    .forGetter(Signal::color)
+                    .forGetter(Signal::color),
+            Codec.BOOL
+                    .fieldOf("tweaked")
+                    .forGetter(Signal::tweaked)
     ).apply(codec, Signal::new));
 
     public static final StreamCodec<ByteBuf, Signal> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
