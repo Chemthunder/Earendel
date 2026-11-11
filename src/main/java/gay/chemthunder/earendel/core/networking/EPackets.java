@@ -2,6 +2,7 @@ package gay.chemthunder.earendel.core.networking;
 
 import gay.chemthunder.earendel.core.networking.clientbound.OpenInterceptorPayload;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
+import gay.chemthunder.earendel.core.networking.clientbound.SyncCastersPayload;
 import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
 import gay.chemthunder.earendel.core.networking.serverbound.GrantLocateCasterPayload;
 import net.fabricmc.api.EnvType;
@@ -15,21 +16,23 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
  */
 public interface EPackets {
     static void typePayloads() {
-        PayloadTypeRegistry.serverboundPlay().register(ExtractSignalFromInterceptorPayload.TYPE, ExtractSignalFromInterceptorPayload.CODEC);
-        PayloadTypeRegistry.serverboundPlay().register(GrantLocateCasterPayload.TYPE, GrantLocateCasterPayload.CODEC);
-
         PayloadTypeRegistry.clientboundPlay().register(OpenSignalPayload.TYPE, OpenSignalPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(OpenInterceptorPayload.TYPE, OpenInterceptorPayload.CODEC);
-    }
+        PayloadTypeRegistry.clientboundPlay().register(SyncCastersPayload.TYPE, SyncCastersPayload.CODEC);
 
-    static void receiveServerbound() {
-        ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
-        ServerPlayNetworking.registerGlobalReceiver(GrantLocateCasterPayload.TYPE, new GrantLocateCasterPayload.Receiver());
+        PayloadTypeRegistry.serverboundPlay().register(ExtractSignalFromInterceptorPayload.TYPE, ExtractSignalFromInterceptorPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(GrantLocateCasterPayload.TYPE, GrantLocateCasterPayload.CODEC);
     }
 
     @Environment(EnvType.CLIENT)
     static void receiveClientbound() {
         ClientPlayNetworking.registerGlobalReceiver(OpenSignalPayload.TYPE, new OpenSignalPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(OpenInterceptorPayload.TYPE, new OpenInterceptorPayload.Receiver());
+        ClientPlayNetworking.registerGlobalReceiver(SyncCastersPayload.TYPE, new SyncCastersPayload.Receiver());
+    }
+
+    static void receiveServerbound() {
+        ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
+        ServerPlayNetworking.registerGlobalReceiver(GrantLocateCasterPayload.TYPE, new GrantLocateCasterPayload.Receiver());
     }
 }

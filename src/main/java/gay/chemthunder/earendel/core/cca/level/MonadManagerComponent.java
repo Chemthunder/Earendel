@@ -5,11 +5,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import gay.chemthunder.earendel.api.cosmic.Monad;
 import gay.chemthunder.earendel.core.Earendel;
 import gay.chemthunder.earendel.core.index.ERegistries;
+import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.chemthunder.arboreal.api.util.LevelUtil;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -48,6 +50,9 @@ public class MonadManagerComponent implements AutoSyncedComponent, CommonTicking
                     export.remove(handler);
                     handlers = export;
                     sync();
+
+                    Entity target = level.getEntity(handler.playerId);
+                    LevelUtil.grantCriterion(ETriggerTypes.MONAD, target);
                 }
             }
         }

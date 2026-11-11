@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 import org.chemthunder.arboreal.api.Arboreal;
 import org.chemthunder.arboreal.api.event.server.ItemCallbacks;
@@ -28,6 +29,8 @@ public class Earendel implements ModInitializer {
 	public static final String MOD_ID = "earendel";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final Arboreal MAIN = new Arboreal(MOD_ID);
+
+	public static final FabricLoader LOADER = FabricLoader.getInstance();
 
 	public void onInitialize() {
 		EItems.init();

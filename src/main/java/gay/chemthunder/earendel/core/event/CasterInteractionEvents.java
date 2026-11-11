@@ -1,11 +1,13 @@
 package gay.chemthunder.earendel.core.event;
 
+import gay.chemthunder.earendel.core.block.CasterBlock;
 import gay.chemthunder.earendel.core.block.entity.CasterBlockEntity;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.index.EBlocks;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.index.EItems;
 import gay.chemthunder.earendel.core.util.EUtil;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -13,7 +15,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Chemthunder
@@ -21,6 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class CasterInteractionEvents {
     public static void init() {
         UseBlockCallback.EVENT.register(new Use());
+        PlayerBlockBreakEvents.AFTER.register(new Break());
     }
 
     public static class Use implements UseBlockCallback {
@@ -55,4 +61,14 @@ public class CasterInteractionEvents {
             return InteractionResult.PASS;
         }
     }
+
+    public static class Break implements PlayerBlockBreakEvents.After {
+        public void afterBlockBreak(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
+            if (state.getBlock() instanceof CasterBlock) {
+                EUtil.popPoint(level, pos);
+                EUtil.syncPoints(level);
+            }
+        }
+    }
 }
+
