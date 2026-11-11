@@ -67,4 +67,9 @@ public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color,
     public Iterator<Integer> iterator() {
         return this.bits().iterator();
     }
+
+    @NotNull
+    public String toString() {
+        return "[" + this.bits.toString() + "]";
+    }
 }

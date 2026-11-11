@@ -21,7 +21,7 @@ import org.joml.Matrix3x2fStack;
  * @author Chemthunder
  */
 @Environment(EnvType.CLIENT)
-public class DrawArtifactBackgroundEvent implements ExtractItemEvent {
+public class DrawArtifactBackgroundEvent implements ExtractItemEvent.Pre {
     public void draw(GuiGraphicsExtractor gg, LivingEntity owner, Level level, ItemStack itemStack, int x, int y, int seed) {
         if (itemStack.is(EItems.CRYING_RESOLVE)) {
             Matrix3x2fStack matrix = gg.pose();

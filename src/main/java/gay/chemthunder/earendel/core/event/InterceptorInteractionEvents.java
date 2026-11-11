@@ -29,7 +29,6 @@ public class InterceptorInteractionEvents {
     public static class Use implements UseBlockCallback {
         public InteractionResult interact(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
             BlockPos pos = hitResult.getBlockPos();
-            BlockState state = level.getBlockState(pos);
             ItemStack stack = player.getItemInHand(hand);
 
             if (level.getBlockEntity(pos) instanceof InterceptorBlockEntity interceptor) {

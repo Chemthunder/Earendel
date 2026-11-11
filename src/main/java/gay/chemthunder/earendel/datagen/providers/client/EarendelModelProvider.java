@@ -1,6 +1,7 @@
 package gay.chemthunder.earendel.datagen.providers.client;
 
 import gay.chemthunder.earendel.core.client.item.DriveTintSource;
+import gay.chemthunder.earendel.core.index.EBlocks;
 import gay.chemthunder.earendel.core.index.EItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -21,7 +22,11 @@ public class EarendelModelProvider extends FabricModelProvider {
         super(output);
     }
 
-    public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {}
+    public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
+        blockModelGenerators.registerSimpleFlatItemModel(EBlocks.TRANSMITTER);
+        blockModelGenerators.registerSimpleFlatItemModel(EBlocks.INTERCEPTOR);
+        blockModelGenerators.registerSimpleFlatItemModel(EBlocks.CASTER);
+    }
 
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
         createDrive(itemModelGenerators);

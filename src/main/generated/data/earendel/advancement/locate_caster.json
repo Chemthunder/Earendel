@@ -1,0 +1,22 @@
+{
+  "parent": "earendel:etch_signal",
+  "criteria": {
+    "e": {
+      "trigger": "earendel:locate_caster"
+    }
+  },
+  "display": {
+    "description": "Use a lensed Spyglass to locate an active Caster.",
+    "frame": "goal",
+    "icon": {
+      "id": "minecraft:spyglass"
+    },
+    "title": "Where We're Going, We Don't Need Roads."
+  },
+  "requirements": [
+    [
+      "e"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

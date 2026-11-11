@@ -27,6 +27,10 @@ public interface EItems {
             .setId(index.keyOf("interceptor"))
     ));
 
+    Item CASTER = index.register("caster", new BlockItem(EBlocks.CASTER, new Item.Properties()
+            .setId(index.keyOf("caster"))
+    ));
+
     Item CRYING_RESOLVE = index.register("crying_resolve", new CryingResolveItem(new Item.Properties()
             .setId(index.keyOf("crying_resolve"))
             .stacksTo(1)

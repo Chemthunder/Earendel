@@ -2,11 +2,12 @@ package gay.chemthunder.earendel.core;
 
 import gay.chemthunder.earendel.api.event.ExtractItemEvent;
 import gay.chemthunder.earendel.core.client.event.DrawArtifactBackgroundEvent;
-import gay.chemthunder.earendel.core.client.event.TestPointHudEvent;
-import gay.chemthunder.earendel.core.client.event.TestPointRenderingEvent;
+import gay.chemthunder.earendel.core.client.event.PointHudEvents;
+import gay.chemthunder.earendel.core.client.event.SpyglassOverlayEvent;
 import gay.chemthunder.earendel.core.client.item.DriveTintSource;
 import gay.chemthunder.earendel.core.index.client.EModelLayerLocations;
 import gay.chemthunder.earendel.core.index.EParticleTypes;
+import gay.chemthunder.earendel.core.index.client.ERenderTypes;
 import gay.chemthunder.earendel.core.networking.EPackets;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -21,23 +22,26 @@ import net.minecraft.client.color.item.ItemTintSources;
  */
 @Environment(EnvType.CLIENT)
 public class EarendelClient implements ClientModInitializer {
+    public static final double INTERCEPTOR_DISTANCE = 965.43;
+
     private static boolean lerpingWaveState = false;
     public static float lerpingWave = 0.0F;
 
-    public static final double INTERCEPTOR_DISTANCE = 965.43;
+    public static int age = 0;
 
     public void onInitializeClient() {
         EParticleTypes.clinit();
         EModelLayerLocations.clinit();
+        ERenderTypes.clinit();
 
         EPackets.receiveClientbound();
 
+        PointHudEvents.init();
+
         ItemTintSources.ID_MAPPER.put(Earendel.id("signal_tinter"), DriveTintSource.MAP_CODEC);
 
-        ExtractItemEvent.EVENT.register(new DrawArtifactBackgroundEvent());
-        LevelRenderEvents.END_MAIN.register(new TestPointRenderingEvent());
-
-        HudElementRegistry.addFirst(Earendel.id("test_point"), new TestPointHudEvent());
+        ExtractItemEvent.PRE.register(new DrawArtifactBackgroundEvent());
+        ExtractItemEvent.POST.register(new SpyglassOverlayEvent());
 
         ClientTickEvents.START_CLIENT_TICK.register((_ -> {
             if (!lerpingWaveState) {
@@ -56,5 +60,7 @@ public class EarendelClient implements ClientModInitializer {
                 }
             }
         }));
+
+        ClientTickEvents.START_CLIENT_TICK.register((_ -> age++));
     }
 }

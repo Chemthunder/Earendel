@@ -1,6 +1,7 @@
 package gay.chemthunder.earendel.datagen.providers.server;
 
 import gay.chemthunder.earendel.core.Earendel;
+import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.index.EItems;
 import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -12,6 +13,7 @@ import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.triggers.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.Collections;
@@ -96,5 +98,22 @@ public class EarendelAdvancementProvider extends FabricAdvancementProvider {
                 .build(id("monad"));
 
         consumer.accept(monad);
+
+        AdvancementHolder locateCaster = Advancement.Builder.advancement()
+                .parent(etchSignal)
+                .display(
+                        Items.SPYGLASS,
+                        Component.literal("Where We're Going, We Don't Need Roads."),
+                        Component.literal("Use a lensed Spyglass to locate an active Caster."),
+                        AdvancementType.GOAL,
+                        true,
+                        true,
+                        false
+                )
+                .addCriterion("e", ETriggerTypes.LOCATE_CASTER.createCriterion(PlayerTrigger.TriggerInstance.tick().triggerInstance()))
+                .requirements(AdvancementRequirements.allOf(Collections.singleton("e")))
+                .build(id("locate_caster"));
+
+        consumer.accept(locateCaster);
     }
 }

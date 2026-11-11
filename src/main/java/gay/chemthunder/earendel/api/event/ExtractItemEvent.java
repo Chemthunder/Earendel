@@ -15,8 +15,8 @@ import org.chemthunder.arboreal.api.event.EventUtil;
  * @author Chemthunder
  */
 @Environment(EnvType.CLIENT)
-public interface ExtractItemEvent extends ArborealEvent {
-    Event<ExtractItemEvent> EVENT = EventFactory.createArrayBacked(ExtractItemEvent.class,
+public interface ExtractItemEvent {
+    Event<Pre> PRE = EventFactory.createArrayBacked(Pre.class,
             (events) -> (
                     gg,
                     owner,
@@ -26,10 +26,31 @@ public interface ExtractItemEvent extends ArborealEvent {
                     y,
                     seed
             ) -> {
-        for (ExtractItemEvent event : EventUtil.sortAndCollectEvents(events, ExtractItemEvent::getPriority)) {
-            event.draw(gg, owner, level, itemStack, x, y, seed);
-        }
-    });
+                for (Pre event : EventUtil.sortAndCollectEvents(events, Pre::getPriority)) {
+                    event.draw(gg, owner, level, itemStack, x, y, seed);
+                }
+            });
 
-    void draw(GuiGraphicsExtractor gg, LivingEntity owner, Level level, ItemStack itemStack, int x, int y, int seed);
+    Event<Post> POST = EventFactory.createArrayBacked(Post.class,
+            (events) -> (
+                    gg,
+                    owner,
+                    level,
+                    itemStack,
+                    x,
+                    y,
+                    seed
+            ) -> {
+                for (Post event : EventUtil.sortAndCollectEvents(events, Post::getPriority)) {
+                    event.draw(gg, owner, level, itemStack, x, y, seed);
+                }
+            });
+
+    interface Pre extends ArborealEvent {
+        void draw(GuiGraphicsExtractor gg, LivingEntity owner, Level level, ItemStack itemStack, int x, int y, int seed);
+    }
+
+    interface Post extends ArborealEvent {
+        void draw(GuiGraphicsExtractor gg, LivingEntity owner, Level level, ItemStack itemStack, int x, int y, int seed);
+    }
 }

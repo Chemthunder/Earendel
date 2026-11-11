@@ -3,6 +3,7 @@ package gay.chemthunder.earendel.core.networking;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenInterceptorPayload;
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
 import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
+import gay.chemthunder.earendel.core.networking.serverbound.GrantLocateCasterPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -14,14 +15,16 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
  */
 public interface EPackets {
     static void typePayloads() {
+        PayloadTypeRegistry.serverboundPlay().register(ExtractSignalFromInterceptorPayload.TYPE, ExtractSignalFromInterceptorPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(GrantLocateCasterPayload.TYPE, GrantLocateCasterPayload.CODEC);
+
         PayloadTypeRegistry.clientboundPlay().register(OpenSignalPayload.TYPE, OpenSignalPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(OpenInterceptorPayload.TYPE, OpenInterceptorPayload.CODEC);
-
-        PayloadTypeRegistry.serverboundPlay().register(ExtractSignalFromInterceptorPayload.TYPE, ExtractSignalFromInterceptorPayload.CODEC);
     }
 
     static void receiveServerbound() {
         ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
+        ServerPlayNetworking.registerGlobalReceiver(GrantLocateCasterPayload.TYPE, new GrantLocateCasterPayload.Receiver());
     }
 
     @Environment(EnvType.CLIENT)

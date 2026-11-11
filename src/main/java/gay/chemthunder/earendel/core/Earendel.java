@@ -1,6 +1,9 @@
 package gay.chemthunder.earendel.core;
 
+import gay.chemthunder.earendel.core.command.ECommand;
+import gay.chemthunder.earendel.core.event.CasterInteractionEvents;
 import gay.chemthunder.earendel.core.event.InterceptorInteractionEvents;
+import gay.chemthunder.earendel.core.event.SpyglassTooltipEvent;
 import gay.chemthunder.earendel.core.event.TransmitterInteractionEvents;
 import gay.chemthunder.earendel.core.index.*;
 import gay.chemthunder.earendel.core.networking.EPackets;
@@ -8,10 +11,13 @@ import gay.chemthunder.earendel.core.networking.clientbound.OpenInterceptorPaylo
 import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
 import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.Identifier;
 import org.chemthunder.arboreal.api.Arboreal;
+import org.chemthunder.arboreal.api.event.server.ItemCallbacks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +50,11 @@ public class Earendel implements ModInitializer {
 
 		TransmitterInteractionEvents.init();
 		InterceptorInteractionEvents.init();
+		CasterInteractionEvents.init();
+
+		CommandRegistrationCallback.EVENT.register(ECommand::register);
+
+		ItemCallbacks.INJECT_TOOLTIP.register(new SpyglassTooltipEvent());
 
 		LOGGER.info("Hello [1,-4,2,2,-6,-8,3]");
 	}

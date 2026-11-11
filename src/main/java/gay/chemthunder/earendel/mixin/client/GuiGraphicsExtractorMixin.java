@@ -16,7 +16,10 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class GuiGraphicsExtractorMixin {
     @WrapMethod(method = "item(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;III)V")
     private void earendel$drawSineWaveBehindItem(LivingEntity owner, Level level, ItemStack itemStack, int x, int y, int seed, Operation<Void> original) {
-        ExtractItemEvent.EVENT.invoker().draw((GuiGraphicsExtractor) (Object) this, owner, level, itemStack, x, y, seed);
+        GuiGraphicsExtractor gg = (GuiGraphicsExtractor) (Object) this;
+
+        ExtractItemEvent.PRE.invoker().draw(gg, owner, level, itemStack, x, y, seed);
         original.call(owner, level, itemStack, x, y, seed);
+        ExtractItemEvent.POST.invoker().draw(gg, owner, level, itemStack, x, y, seed);
     }
 }

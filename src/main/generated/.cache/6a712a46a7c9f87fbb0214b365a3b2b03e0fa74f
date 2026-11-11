@@ -1,5 +1,11 @@
 // 26.3	-999999999-01-01T00:00:00	Earendel/Model Definitions
+26e0307a1827a043bcfbb396e4762c4a0bdf6ace assets/earendel/items/caster.json
 5cfc8f2f28a1f8914b9cb9d12dd140e38a3feb06 assets/earendel/items/crying_resolve.json
 99f5a090cd72c440b495807e52cd10d276a11622 assets/earendel/items/drive.json
+f3c934251399e45d5069fee16fee9a2460dbaff3 assets/earendel/items/interceptor.json
+e82460d147b963b8fd2c4ccd6806ca17d4bce031 assets/earendel/items/transmitter.json
+6d11214c91dfe6cead970bfb0012489f4fa8f043 assets/earendel/models/item/caster.json
 0be4eecfd660e53e27d5cba8c21bf1e79bbfea33 assets/earendel/models/item/crying_resolve.json
 566eb6bc13a130914fe39e7efbe64cdab8c90d1b assets/earendel/models/item/drive.json
+ce97f1eef48a216fbab6df9726fbef78e0192ea6 assets/earendel/models/item/interceptor.json
+b45199109775f5fc31a8b8173850ffe14bd05fb6 assets/earendel/models/item/transmitter.json

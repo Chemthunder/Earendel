@@ -47,7 +47,7 @@ public class DriveItem extends Item implements Tooltip {
 
     public static ItemStack getDisplayedStack() {
         ItemStack stack = EItems.DRIVE.getDefaultInstance();
-        stack.set(EDataComponentTypes.SIGNAL, new Signal(List.of(1, 1, 1, 1, 1), Biomes.BADLANDS, 0xFF34eb98));
+        stack.set(EDataComponentTypes.SIGNAL, new Signal(List.of(1, 1, 1, 1, 1), Biomes.BADLANDS, 0xFF34eb98, false));
         return stack;
     }
 

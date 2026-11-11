@@ -3,86 +3,106 @@ package gay.chemthunder.earendel.core.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import gay.chemthunder.earendel.core.Earendel;
+import gay.chemthunder.earendel.core.EarendelClient;
+import gay.chemthunder.earendel.core.client.event.PointHudEvents;
 import gay.chemthunder.earendel.core.client.model.PlaneModel;
+import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.index.client.EModelLayerLocations;
+import gay.chemthunder.earendel.core.index.client.ERenderTypes;
+import gay.chemthunder.earendel.core.util.SignalPos;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.EasingType;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Unit;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 /**
  * @author Chemthunder
  */
 @Environment(EnvType.CLIENT)
 public class PointRenderer {
-    public static final List<Vec3> TEST_POINTS = List.of(
-            new Vec3(0, 100, 0),
-            new Vec3(3, 100, 0),
-            new Vec3(6, 100, 0)
-    );
-
     public static void render(PoseStack pose, SubmitNodeCollector node, CameraRenderState state) {
         Minecraft minecraft = Minecraft.getInstance();
 
-        EntityModelSet modelSet = minecraft.getEntityModels();
+        Player player = minecraft.player;
+        if (player == null) return;
 
-        Vec3 cameraPosition = state.pos;
+        if (player.getActiveItem().is(Items.SPYGLASS) && player.isUsingItem()) {
 
-        pose.pushPose();
+            EntityModelSet modelSet = minecraft.getEntityModels();
 
-        for (Vec3 vec3 : TEST_POINTS) {
-            Vec3 translationPoint = new Vec3(
-                    vec3.x - cameraPosition.x,
-                    vec3.y - cameraPosition.y,
-                    vec3.z - cameraPosition.z
-            );
+            Camera cam = minecraft.gameRenderer.mainCamera();
+            Vec3 cPos = state.pos;
 
-            PlaneModel plane = new PlaneModel(modelSet.bakeLayer(EModelLayerLocations.PLANE));
+            Level local = minecraft.level;
+            if (local == null) return;
 
             pose.pushPose();
 
-            pose.translate(translationPoint);
+            for (SignalPos signalPos : local.getAttachedOrCreate(EAttachmentTypes.CASTERS)) {
+                PlaneModel plane = new PlaneModel(modelSet.bakeLayer(EModelLayerLocations.PLANE));
 
-            pose.rotate(Axis.XP.rotationDegrees(90));
+                BlockPos signalOrigin = signalPos.pos().pos();
 
-            node.submitModel(
-                    plane,
-                    Unit.INSTANCE,
-                    pose,
-                    Earendel.id("textures/render/point.png"),
-                    OverlayTexture.NO_OVERLAY,
-                    OverlayTexture.WHITE_OVERLAY_V,
-                    0xFFffffff
-            );
+                Vec3 pointVec = new Vec3(
+                        signalOrigin.getX() + 0.5,
+                        signalOrigin.getY() + 0.5,
+                        signalOrigin.getZ() + 0.5
+                );
 
-            pose.popPose();
+                pose.pushPose();
 
-            pose.pushPose();
+                pose.translate(cPos.vectorTo(pointVec).normalize().scale(2));
 
-            pose.translate(translationPoint);
+                float pointSize = EasingType.OUT_EXPO.apply(PointHudEvents.pointScale) * 0.2F;
 
-            node.submitModel(
-                    plane,
-                    Unit.INSTANCE,
-                    pose,
-                    Earendel.id("textures/render/point.png"),
-                    OverlayTexture.NO_OVERLAY,
-                    OverlayTexture.WHITE_OVERLAY_V,
-                    0xFFffffff
-            );
+                pose.scale(pointSize, pointSize, pointSize);
 
+                pose.rotate(cam.rotation());
+                pose.rotate(Axis.XP, 30);
+
+                pose.pushPose();
+
+                pose.rotate(
+                        Axis.YP.rotationDegrees(
+                                (EarendelClient.age + minecraft.getDeltaTracker().getGameTimeDeltaTicks())
+                                        / 2
+                        )
+                );
+
+                node.submitModel(
+                        plane,
+                        Unit.INSTANCE,
+                        pose,
+                        RenderTypes.entityTranslucent(Earendel.id("textures/render/point.png")),
+                        LightCoordsUtil.FULL_BRIGHT,
+                        OverlayTexture.NO_OVERLAY,
+                        signalPos.signal().color(),
+                        null,
+                        signalPos.signal().color()
+                );
+
+                pose.popPose();
+
+                pose.popPose();
+            }
             pose.popPose();
         }
-
-        pose.popPose();
     }
 }
+
 
 

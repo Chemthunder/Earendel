@@ -3,7 +3,7 @@
   "package": "gay.chemthunder.earendel.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "ExampleMixin"
+    "SpyglassItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

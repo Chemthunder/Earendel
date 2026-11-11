@@ -15,6 +15,7 @@ public interface ETriggerTypes {
     PlayerTrigger ETCH_SIGNAL = index.register("etch_signal", new PlayerTrigger());
     PlayerTrigger BROADCAST_SIGNAL = index.register("broadcast_signal", new PlayerTrigger());
     PlayerTrigger MONAD = index.register("monad", new PlayerTrigger());
+    PlayerTrigger LOCATE_CASTER = index.register("locate_caster", new PlayerTrigger());
 
     static void init() {}
 }
