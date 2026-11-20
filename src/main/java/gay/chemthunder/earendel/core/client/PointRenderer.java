@@ -8,6 +8,7 @@ import gay.chemthunder.earendel.core.client.event.PointHudEvents;
 import gay.chemthunder.earendel.core.client.model.PlaneModel;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.index.client.EModelLayerLocations;
+import gay.chemthunder.earendel.core.util.EUtil;
 import gay.chemthunder.earendel.core.util.SignalPos;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -38,8 +39,7 @@ public class PointRenderer {
         Player player = minecraft.player;
         if (player == null) return;
 
-        if (player.getActiveItem().is(Items.SPYGLASS) && player.isUsingItem()) {
-
+        if (EUtil.usingLensedSpyglass(player)) {
             EntityModelSet modelSet = minecraft.getEntityModels();
 
             Camera cam = minecraft.gameRenderer.mainCamera();

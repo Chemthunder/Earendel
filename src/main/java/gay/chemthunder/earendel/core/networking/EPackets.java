@@ -10,12 +10,13 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import org.chemthunder.arboreal.api.core.task.NetworkingTask;
 
 /**
  * @author Chemthunder
  */
-public interface EPackets {
-    static void typePayloads() {
+public class EPackets extends NetworkingTask {
+    public void registerTypes() {
         PayloadTypeRegistry.clientboundPlay().register(OpenSignalPayload.TYPE, OpenSignalPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(OpenInterceptorPayload.TYPE, OpenInterceptorPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(SyncCastersPayload.TYPE, SyncCastersPayload.CODEC);
@@ -24,15 +25,15 @@ public interface EPackets {
         PayloadTypeRegistry.serverboundPlay().register(GrantLocateCasterPayload.TYPE, GrantLocateCasterPayload.CODEC);
     }
 
+    public void serverbound() {
+        ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
+        ServerPlayNetworking.registerGlobalReceiver(GrantLocateCasterPayload.TYPE, new GrantLocateCasterPayload.Receiver());
+    }
+
     @Environment(EnvType.CLIENT)
-    static void receiveClientbound() {
+    public void clientbound() {
         ClientPlayNetworking.registerGlobalReceiver(OpenSignalPayload.TYPE, new OpenSignalPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(OpenInterceptorPayload.TYPE, new OpenInterceptorPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(SyncCastersPayload.TYPE, new SyncCastersPayload.Receiver());
-    }
-
-    static void receiveServerbound() {
-        ServerPlayNetworking.registerGlobalReceiver(ExtractSignalFromInterceptorPayload.TYPE, new ExtractSignalFromInterceptorPayload.Receiver());
-        ServerPlayNetworking.registerGlobalReceiver(GrantLocateCasterPayload.TYPE, new GrantLocateCasterPayload.Receiver());
     }
 }

@@ -9,28 +9,26 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.chemthunder.arboreal.api.registration.Index;
+import org.chemthunder.arboreal.api.core.task.RegisterTask;
 
 /**
  * @author Chemthunder
  */
 public interface EBlocks {
-    Index<Block> index = Earendel.MAIN.createIndex(BuiltInRegistries.BLOCK);
+    RegisterTask<Block> task = Earendel.MAIN.createTask(RegisterTask::new, BuiltInRegistries.BLOCK);
 
-    Block TRANSMITTER = index.register("transmitter", new TransmitterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+    Block TRANSMITTER = task.register("transmitter", new TransmitterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
             .sound(SoundType.COPPER_BULB)
-            .setId(index.keyOf("transmitter"))
+            .setId(task.keyOf("transmitter"))
     ));
 
-    Block INTERCEPTOR = index.register("interceptor", new InterceptorBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+    Block INTERCEPTOR = task.register("interceptor", new InterceptorBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
             .sound(SoundType.COPPER_BULB)
-            .setId(index.keyOf("interceptor"))
+            .setId(task.keyOf("interceptor"))
     ));
 
-    Block CASTER = index.register("caster", new CasterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
+    Block CASTER = task.register("caster", new CasterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
             .sound(SoundType.COPPER_GRATE)
-            .setId(index.keyOf("caster"))
+            .setId(task.keyOf("caster"))
     ));
-
-    static void init() {}
 }

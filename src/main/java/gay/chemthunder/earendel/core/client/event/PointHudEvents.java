@@ -3,6 +3,7 @@ package gay.chemthunder.earendel.core.client.event;
 import gay.chemthunder.earendel.core.Earendel;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.networking.serverbound.GrantLocateCasterPayload;
+import gay.chemthunder.earendel.core.util.EUtil;
 import gay.chemthunder.earendel.core.util.SignalPos;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -49,7 +50,7 @@ public class PointHudEvents {
 
             pointScale = Mth.clamp(pointScale, 0.0F, 0.95F);
 
-            if (player.getActiveItem().is(Items.SPYGLASS) && player.isUsingItem()) {
+            if (EUtil.usingLensedSpyglass(player)) {
                 if (pointScale < 1.0F) {
                     pointScale += 0.05F;
                 }
@@ -57,7 +58,7 @@ public class PointHudEvents {
                 pointScale = 0.0F;
             }
 
-            if (player.getActiveItem().is(Items.SPYGLASS) && player.isUsingItem()) {
+            if (EUtil.usingLensedSpyglass(player)) {
                 HitResult viewCast = player.pick(512, 0.0F, true);
                 Vec3 tail = viewCast.getLocation();
 
@@ -96,6 +97,18 @@ public class PointHudEvents {
                         graphics.guiHeight() / 2 - 60,
                         0xFFffffff
                 );
+
+                if (recordedSignal.name().isPresent()) {
+                    String name = recordedSignal.name().get();
+
+                    graphics.centeredText(
+                            font,
+                            Component.literal(name),
+                            graphics.guiWidth() / 2,
+                            graphics.guiHeight() / 2 - 50,
+                            0xFFffffff
+                    );
+                }
             }
         }
     }

@@ -12,13 +12,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import org.chemthunder.arboreal.api.registration.Index;
+import org.chemthunder.arboreal.api.core.task.RegisterTask;
 
 /**
  * @author Chemthunder
  */
 public interface ECreativeModeTabs {
-    Index<CreativeModeTab> index = Earendel.MAIN.createIndex(BuiltInRegistries.CREATIVE_MODE_TAB);
+    RegisterTask<CreativeModeTab> task = Earendel.MAIN.createTask(RegisterTask::new, BuiltInRegistries.CREATIVE_MODE_TAB);
 
     ResourceKey<CreativeModeTab> KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Earendel.id("main"));
     CreativeModeTab MAIN = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, KEY, FabricCreativeModeTab.builder()
@@ -26,12 +26,8 @@ public interface ECreativeModeTabs {
             .title(Component.literal("Earendel").withColor(0xFF8032e6))
             .build());
 
-    static void init() {
-        CreativeModeTabEvents.modifyOutputEvent(KEY).register(ECreativeModeTabs::modifyOutput);
-    }
-
-    private static void modifyOutput(FabricCreativeModeTabOutput output) {
-        for (Item item : EItems.index) {
+    static void modifyOutput(FabricCreativeModeTabOutput output) {
+        for (Item item : EItems.task) {
             output.accept(item);
         }
     }

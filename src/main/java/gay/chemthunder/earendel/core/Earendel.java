@@ -7,17 +7,12 @@ import gay.chemthunder.earendel.core.event.SpyglassTooltipEvent;
 import gay.chemthunder.earendel.core.event.TransmitterInteractionEvents;
 import gay.chemthunder.earendel.core.index.*;
 import gay.chemthunder.earendel.core.networking.EPackets;
-import gay.chemthunder.earendel.core.networking.clientbound.OpenInterceptorPayload;
-import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
-import gay.chemthunder.earendel.core.networking.serverbound.ExtractSignalFromInterceptorPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
-import org.chemthunder.arboreal.api.Arboreal;
+import org.chemthunder.arboreal.api.core.Arboreal;
 import org.chemthunder.arboreal.api.event.server.ItemCallbacks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,27 +28,32 @@ public class Earendel implements ModInitializer {
 	public static final FabricLoader LOADER = FabricLoader.getInstance();
 
 	public void onInitialize() {
-		EItems.init();
-		EBlocks.init();
+		MAIN.initMain(() -> {
+			MAIN.addHandler(EPackets::new);
 
-		EBlockEntityTypes.init();
-		EDataComponentTypes.init();
-		ETriggerTypes.init();
-		EParticleTypes.init();
+			MAIN.addHandler(EItems.task);
+			MAIN.addHandler(EBlocks.task);
+
+			MAIN.addHandler(EBlockEntityTypes.task);
+			MAIN.addHandler(EDataComponentTypes.task);
+			MAIN.addHandler(ETriggerTypes.task);
+
+			MAIN.addHandler(EAttachmentTypes.task);
+
+			MAIN.addHandler(ESignalFlags.task);
+			MAIN.addHandler(EMonads.task);
+
+			MAIN.addHandler(ESoundEvents.task);
+			MAIN.addHandler(ECreativeModeTabs.task);
+		});
 
 		ERegistries.init();
-		ESoundEvents.init();
-		ECreativeModeTabs.init();
-
-		ESignalFlags.init();
-		EMonads.init();
-
-		EPackets.typePayloads();
-		EPackets.receiveServerbound();
 
 		TransmitterInteractionEvents.init();
 		InterceptorInteractionEvents.init();
 		CasterInteractionEvents.init();
+
+		CreativeModeTabEvents.modifyOutputEvent(ECreativeModeTabs.KEY).register(ECreativeModeTabs::modifyOutput);
 
 		CommandRegistrationCallback.EVENT.register(ECommand::register);
 

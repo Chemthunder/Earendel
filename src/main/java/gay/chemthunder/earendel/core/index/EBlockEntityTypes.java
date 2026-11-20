@@ -7,28 +7,26 @@ import gay.chemthunder.earendel.core.block.entity.TransmitterBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.chemthunder.arboreal.api.registration.Index;
+import org.chemthunder.arboreal.api.core.task.RegisterTask;
 
 /**
  * @author Chemthunder
  */
 public interface EBlockEntityTypes {
-    Index<BlockEntityType<?>> index = Earendel.MAIN.createIndex(BuiltInRegistries.BLOCK_ENTITY_TYPE);
+    RegisterTask<BlockEntityType<?>> task = Earendel.MAIN.createTask(RegisterTask::new, BuiltInRegistries.BLOCK_ENTITY_TYPE);
 
-    BlockEntityType<TransmitterBlockEntity> TRANSMITTER = index.register("transmitter", FabricBlockEntityTypeBuilder.create(
+    BlockEntityType<TransmitterBlockEntity> TRANSMITTER = task.register("transmitter", FabricBlockEntityTypeBuilder.create(
             TransmitterBlockEntity::new,
             EBlocks.TRANSMITTER
     ).build());
 
-    BlockEntityType<InterceptorBlockEntity> INTERCEPTOR = index.register("interceptor", FabricBlockEntityTypeBuilder.create(
+    BlockEntityType<InterceptorBlockEntity> INTERCEPTOR = task.register("interceptor", FabricBlockEntityTypeBuilder.create(
             InterceptorBlockEntity::new,
             EBlocks.INTERCEPTOR
     ).build());
 
-    BlockEntityType<CasterBlockEntity> CASTER = index.register("caster", FabricBlockEntityTypeBuilder.create(
+    BlockEntityType<CasterBlockEntity> CASTER = task.register("caster", FabricBlockEntityTypeBuilder.create(
             CasterBlockEntity::new,
             EBlocks.CASTER
     ).build());
-
-    static void init() {}
 }

@@ -2,15 +2,18 @@ package gay.chemthunder.earendel.core.index;
 
 import gay.chemthunder.earendel.api.cosmic.SignalFlag;
 import gay.chemthunder.earendel.core.Earendel;
-import net.minecraft.core.Registry;
+import org.chemthunder.arboreal.api.core.task.RegisterTask;
 
 import java.util.Objects;
 
 /**
  * @author Chemthunder
  */
+@SuppressWarnings("unused")
 public interface ESignalFlags {
-    SignalFlag TWIN = register("twin", (signal -> {
+    RegisterTask<SignalFlag> task = Earendel.MAIN.createTask(RegisterTask::new, ERegistries.FLAG);
+
+    SignalFlag TWIN = task.register("twin", (signal -> {
         int lastBit = 999;
 
         for (int bit : signal) {
@@ -23,12 +26,12 @@ public interface ESignalFlags {
         return false;
     }));
 
-    SignalFlag MIRROR_MIRROR = register("mirror_mirror", (signal ->
+    SignalFlag MIRROR_MIRROR = task.register("mirror_mirror", (signal ->
                     Objects.equals(signal.bits().getFirst(), signal.bits().getLast())
             )
     );
 
-    SignalFlag BALANCE = register("balance", (signal -> {
+    SignalFlag BALANCE = task.register("balance", (signal -> {
         for (int bit : signal) {
             if (!(bit % 2 == 0)) {
                 return false;
@@ -37,7 +40,7 @@ public interface ESignalFlags {
         return true;
     }));
 
-    SignalFlag NULLED = register("nulled", (signal -> {
+    SignalFlag NULLED = task.register("nulled", (signal -> {
         for (int bit : signal) {
             if (bit > 0) {
                 return false;
@@ -45,10 +48,4 @@ public interface ESignalFlags {
         }
         return true;
     }));
-
-    static void init() {}
-
-    private static SignalFlag register(String name, SignalFlag flag) {
-        return Registry.register(ERegistries.FLAG, Earendel.id(name), flag);
-    }
 }

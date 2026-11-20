@@ -98,6 +98,10 @@ public class EUtil {
         pushPoint(level, level.dimension(), pos);
     }
 
+    public static void pushPoint(Level level, BlockPos pos, Signal signal) {
+        pushPoint(level, level.dimension(), pos, signal);
+    }
+
     public static void popPoint(Level level, SignalPos origin) {
         List<SignalPos> origins = getPoints(level);
         origins.remove(origin);
@@ -115,14 +119,19 @@ public class EUtil {
 
         if (saved != null) {
             popPoint(level, saved);
-            return;
         }
-
-        Earendel.LOGGER.info("Cached origin is null! {} {}", levelKey.identifier(), pos.toShortString());
     }
 
     public static void popPoint(Level level, BlockPos pos) {
         popPoint(level, level.dimension(), pos);
+    }
+
+    public static void tweakPoint(Level level, BlockPos pos, Consumer<SignalPos> consumer) {
+        SignalPos saved = getSaved(level, GlobalPos.of(level.dimension(), pos));
+
+        if (saved != null) {
+            consumer.accept(saved);
+        }
     }
 
     public static boolean onClickSpyglass(ItemStack self, ItemStack other, Slot slot, ClickAction clickAction, Player player, SlotAccess carriedItem) {

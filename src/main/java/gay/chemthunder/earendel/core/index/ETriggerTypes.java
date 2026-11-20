@@ -4,18 +4,16 @@ import gay.chemthunder.earendel.core.Earendel;
 import net.minecraft.advancements.triggers.CriterionTrigger;
 import net.minecraft.advancements.triggers.PlayerTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
-import org.chemthunder.arboreal.api.registration.Index;
+import org.chemthunder.arboreal.api.core.task.RegisterTask;
 
 /**
  * @author Chemthunder
  */
 public interface ETriggerTypes {
-    Index<CriterionTrigger<?>> index = Earendel.MAIN.createIndex(BuiltInRegistries.TRIGGER_TYPES);
+    RegisterTask<CriterionTrigger<?>> task = Earendel.MAIN.createTask(RegisterTask::new, BuiltInRegistries.TRIGGER_TYPES);
 
-    PlayerTrigger ETCH_SIGNAL = index.register("etch_signal", new PlayerTrigger());
-    PlayerTrigger BROADCAST_SIGNAL = index.register("broadcast_signal", new PlayerTrigger());
-    PlayerTrigger MONAD = index.register("monad", new PlayerTrigger());
-    PlayerTrigger LOCATE_CASTER = index.register("locate_caster", new PlayerTrigger());
-
-    static void init() {}
+    PlayerTrigger ETCH_SIGNAL = task.register("etch_signal", new PlayerTrigger());
+    PlayerTrigger BROADCAST_SIGNAL = task.register("broadcast_signal", new PlayerTrigger());
+    PlayerTrigger MONAD = task.register("monad", new PlayerTrigger());
+    PlayerTrigger LOCATE_CASTER = task.register("locate_caster", new PlayerTrigger());
 }
