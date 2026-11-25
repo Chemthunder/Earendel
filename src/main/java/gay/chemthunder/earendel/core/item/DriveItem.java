@@ -65,6 +65,14 @@ public class DriveItem extends Item implements Tooltip {
                         .append(Component.literal("Found in ").withStyle(ChatFormatting.DARK_GRAY))
                         .append(Component.literal(signal.biomeKey().identifier().getPath()).withStyle(ChatFormatting.LIGHT_PURPLE))
                 );
+
+                if (signal.tweaked()) {
+                    consumer.accept(Component.empty()
+                            .append(Component.literal("[").withStyle(ChatFormatting.DARK_GRAY))
+                            .append(Component.literal("TWEAKED").withStyle(ChatFormatting.YELLOW))
+                            .append(Component.literal("]").withStyle(ChatFormatting.DARK_GRAY))
+                    );
+                }
             }
         }
     }

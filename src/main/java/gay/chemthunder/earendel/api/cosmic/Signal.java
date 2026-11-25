@@ -22,6 +22,7 @@ import java.util.Random;
  */
 public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color, boolean tweaked) implements Iterable<Integer> {
     public static final Integer MAX_BITS = 9;
+    public static final int MAX_BIT_VALUE = 10;
 
     public Signal(List<Integer> bits, ResourceKey<Biome> biomeKey) {
         this(bits, biomeKey, SignalColors.getRandom(), false);
@@ -30,7 +31,7 @@ public record Signal(List<Integer> bits, ResourceKey<Biome> biomeKey, int color,
     public Signal(ResourceKey<Biome> biomeKey) {
         List<Integer> bitList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            bitList.add(new Random().nextInt(-10, 10));
+            bitList.add(new Random().nextInt(-MAX_BIT_VALUE, MAX_BIT_VALUE));
         }
         this(bitList, biomeKey, SignalColors.getRandom(), false);
     }

@@ -10,6 +10,7 @@ import gay.chemthunder.earendel.core.networking.clientbound.OpenSignalPayload;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -42,18 +43,23 @@ public class TransmitterInteractionEvents {
                     if (stack.has(EDataComponentTypes.SIGNAL)) {
                         Signal signal = stack.get(EDataComponentTypes.SIGNAL);
                         if (signal != null) {
-                            transmitter.setAttached(EAttachmentTypes.STORED_STACK, stack.split(1));
-                            level.playSound(
-                                    null,
-                                    pos.getX(),
-                                    pos.getY(),
-                                    pos.getZ(),
-                                    SoundEvents.IRON_BREAK,
-                                    SoundSource.BLOCKS,
-                                    1,
-                                    0.1F
-                            );
-                            return InteractionResult.SUCCESS;
+                            if (!signal.tweaked()) {
+                                transmitter.setAttached(EAttachmentTypes.STORED_STACK, stack.split(1));
+                                level.playSound(
+                                        null,
+                                        pos.getX(),
+                                        pos.getY(),
+                                        pos.getZ(),
+                                        SoundEvents.IRON_BREAK,
+                                        SoundSource.BLOCKS,
+                                        1,
+                                        0.1F
+                                );
+                                return InteractionResult.SUCCESS;
+                            } else {
+                                player.sendOverlayMessage(Component.literal("The omens detest such a frivolous charade."));
+                                return InteractionResult.FAIL;
+                            }
                         }
                     }
                 } else {
