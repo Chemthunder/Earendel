@@ -1,7 +1,10 @@
 package gay.chemthunder.earendel.core;
 
 import gay.chemthunder.earendel.core.command.ECommand;
-import gay.chemthunder.earendel.core.event.*;
+import gay.chemthunder.earendel.core.event.CasterInteractionEvents;
+import gay.chemthunder.earendel.core.event.InterceptorInteractionEvents;
+import gay.chemthunder.earendel.core.event.TransmitterInteractionEvents;
+import gay.chemthunder.earendel.core.event.TweakSignalEvent;
 import gay.chemthunder.earendel.core.index.*;
 import gay.chemthunder.earendel.core.networking.EPackets;
 import net.fabricmc.api.ModInitializer;
@@ -11,7 +14,6 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 import org.chemthunder.arboreal.api.core.Arboreal;
-import org.chemthunder.arboreal.api.event.server.ItemCallbacks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,8 +56,6 @@ public class Earendel implements ModInitializer {
 		CreativeModeTabEvents.modifyOutputEvent(ECreativeModeTabs.KEY).register(ECreativeModeTabs::modifyOutput);
 
 		CommandRegistrationCallback.EVENT.register(ECommand::register);
-
-		ItemCallbacks.INJECT_TOOLTIP.register(new SpyglassTooltipEvent());
 		UseItemCallback.EVENT.register(new TweakSignalEvent());
 
 		LOGGER.info("Hello [1,-4,2,2,-6,-8,3]");
