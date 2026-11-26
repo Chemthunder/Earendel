@@ -16,4 +16,5 @@ public interface ETriggerTypes {
     PlayerTrigger BROADCAST_SIGNAL = task.register("broadcast_signal", new PlayerTrigger());
     PlayerTrigger MONAD = task.register("monad", new PlayerTrigger());
     PlayerTrigger LOCATE_CASTER = task.register("locate_caster", new PlayerTrigger());
+    PlayerTrigger TWEAK_SIGNAL = task.register("tweak_signal", new PlayerTrigger());
 }

@@ -4,12 +4,14 @@ import com.mojang.serialization.Codec;
 import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.Earendel;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
+import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.item.ItemStack;
+import org.chemthunder.arboreal.api.util.LevelUtil;
 
 import java.util.List;
 
@@ -40,6 +42,8 @@ public record ApplySignalTweakPayload(ItemStack stack, List<Integer> newBits) im
                         signal.color(),
                         true
                 ));
+
+                LevelUtil.grantCriterion(ETriggerTypes.TWEAK_SIGNAL, context.player());
             }
         }
     }

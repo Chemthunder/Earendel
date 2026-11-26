@@ -1,5 +1,7 @@
 package gay.chemthunder.earendel.core.client.model;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
@@ -11,6 +13,7 @@ import net.minecraft.util.Unit;
 /**
  * @author AcoYT
  */
+@Environment(EnvType.CLIENT)
 public class PlaneModel extends Model.Simple {
     private final ModelPart bone;
 

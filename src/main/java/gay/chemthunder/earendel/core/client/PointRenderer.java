@@ -2,14 +2,14 @@ package gay.chemthunder.earendel.core.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import gay.chemthunder.earendel.api.cosmic.Signal;
 import gay.chemthunder.earendel.core.Earendel;
-import gay.chemthunder.earendel.core.EarendelClient;
 import gay.chemthunder.earendel.core.client.event.PointHudEvents;
 import gay.chemthunder.earendel.core.client.model.PlaneModel;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.index.client.EModelLayerLocations;
 import gay.chemthunder.earendel.core.util.EUtil;
-import gay.chemthunder.earendel.core.util.SignalPos;
+import gay.chemthunder.earendel.api.cosmic.SignalOrigin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
@@ -20,13 +20,16 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.EasingType;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.chemthunder.arboreal.api.util.LevelUtil;
+
+import static gay.chemthunder.earendel.core.EarendelClient.age;
 
 /**
  * @author Chemthunder
@@ -50,22 +53,27 @@ public class PointRenderer {
 
             pose.pushPose();
 
-            for (SignalPos signalPos : local.getAttachedOrCreate(EAttachmentTypes.CASTERS)) {
+            for (SignalOrigin signalPos : local.getAttachedOrCreate(EAttachmentTypes.CASTERS)) {
                 PlaneModel plane = new PlaneModel(modelSet.bakeLayer(EModelLayerLocations.PLANE));
+                Signal signal = signalPos.signal();
 
                 BlockPos signalOrigin = signalPos.pos().pos();
 
-                Vec3 pointVec = new Vec3(
-                        signalOrigin.getX() + 0.5,
-                        signalOrigin.getY() + 0.5,
-                        signalOrigin.getZ() + 0.5
-                );
+//                Vec3 pointVec = new Vec3(
+//                        signalOrigin.getX() + 0.5,
+//                        signalOrigin.getY() + 0.5,
+//                        signalOrigin.getZ() + 0.5
+//                );
+
+                Vec3 pointVec = LevelUtil.blockPosToVec(signalOrigin).add(0.5);
+
+                Identifier texture = Earendel.id("textures/render/point_" + Math.abs(signal.bits().getFirst()) + ".png");
+
+                float pointSize = EasingType.OUT_EXPO.apply(PointHudEvents.pointScale) * 0.2F;
 
                 pose.pushPose();
 
                 pose.translate(cPos.vectorTo(pointVec).normalize().scale(2));
-
-                float pointSize = EasingType.OUT_EXPO.apply(PointHudEvents.pointScale) * 0.2F;
 
                 pose.scale(pointSize, pointSize, pointSize);
 
@@ -74,23 +82,18 @@ public class PointRenderer {
 
                 pose.pushPose();
 
-                pose.rotate(
-                        Axis.YP.rotationDegrees(
-                                (EarendelClient.age + minecraft.getDeltaTracker().getGameTimeDeltaTicks())
-                                        / 2
-                        )
-                );
+                pose.rotate(Axis.YP.rotationDegrees((age + minecraft.getDeltaTracker().getGameTimeDeltaTicks()) / 2));
 
                 node.submitModel(
                         plane,
                         Unit.INSTANCE,
                         pose,
-                        RenderTypes.entityTranslucent(Earendel.id("textures/render/point.png")),
+                        RenderTypes.entityTranslucent(texture),
                         LightCoordsUtil.FULL_BRIGHT,
                         OverlayTexture.NO_OVERLAY,
-                        signalPos.signal().color(),
+                        signal.color(),
                         null,
-                        signalPos.signal().color()
+                        signal.color()
                 );
 
                 pose.popPose();

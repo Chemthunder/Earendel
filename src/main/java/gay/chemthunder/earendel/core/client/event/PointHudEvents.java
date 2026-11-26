@@ -4,7 +4,7 @@ import gay.chemthunder.earendel.core.Earendel;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.networking.serverbound.GrantLocateCasterPayload;
 import gay.chemthunder.earendel.core.util.EUtil;
-import gay.chemthunder.earendel.core.util.SignalPos;
+import gay.chemthunder.earendel.api.cosmic.SignalOrigin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -19,7 +19,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -33,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 public class PointHudEvents {
     public static float pointScale = 0.0F;
 
-    public static @Nullable SignalPos recordedSignal = null;
+    public static @Nullable SignalOrigin recordedSignal = null;
 
     public static void init() {
         ClientTickEvents.START_CLIENT_TICK.register(new Tick());
@@ -64,7 +63,7 @@ public class PointHudEvents {
 
                 final float inflation = 5;
 
-                for (SignalPos origin : local.getAttachedOrCreate(EAttachmentTypes.CASTERS)) {
+                for (SignalOrigin origin : local.getAttachedOrCreate(EAttachmentTypes.CASTERS)) {
                     BlockPos.MutableBlockPos spawnPos = new BlockPos.MutableBlockPos(
                             origin.pos().pos().getX() - (inflation / 2),
                             origin.pos().pos().getY() - (inflation / 2),

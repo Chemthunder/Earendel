@@ -1,7 +1,6 @@
 package gay.chemthunder.earendel.datagen.providers.server;
 
 import gay.chemthunder.earendel.core.Earendel;
-import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.index.EItems;
 import gay.chemthunder.earendel.core.index.ETriggerTypes;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -13,7 +12,6 @@ import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.triggers.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.Collections;
@@ -115,5 +113,22 @@ public class EarendelAdvancementProvider extends FabricAdvancementProvider {
                 .build(id("locate_caster"));
 
         consumer.accept(locateCaster);
+
+        AdvancementHolder tweakSignal = Advancement.Builder.advancement()
+                .parent(etchSignal)
+                .display(
+                        Items.IRON_SWORD,
+                        Component.literal("Hacking Genius!"),
+                        Component.literal("Use a sharp item to cut open an etched Drive, allowing for the contents to be tweaked."),
+                        AdvancementType.GOAL,
+                        true,
+                        true,
+                        false
+                )
+                .addCriterion("e", ETriggerTypes.TWEAK_SIGNAL.createCriterion(PlayerTrigger.TriggerInstance.tick().triggerInstance()))
+                .requirements(AdvancementRequirements.allOf(Collections.singleton("e")))
+                .build(id("tweak_signal"));
+
+        consumer.accept(tweakSignal);
     }
 }

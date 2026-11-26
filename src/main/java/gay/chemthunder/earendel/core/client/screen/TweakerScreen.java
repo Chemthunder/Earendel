@@ -52,19 +52,7 @@ public class TweakerScreen extends Screen {
         }
     }
 
-    public void tick() {
-
-    }
-
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-        Matrix3x2fStack matrix = graphics.pose();
-
-        matrix.pushMatrix();
-
-
-
-        matrix.popMatrix();
-
         for (SignalTweak c : this.tweaks) {
             c.extractRenderState(graphics, mouseX, mouseY, a);
         }

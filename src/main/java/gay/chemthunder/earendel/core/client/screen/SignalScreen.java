@@ -5,7 +5,6 @@ import gay.chemthunder.earendel.api.cosmic.SignalFlag;
 import gay.chemthunder.earendel.core.index.ERegistries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,15 +21,12 @@ import java.util.Random;
  */
 @Environment(EnvType.CLIENT)
 public class SignalScreen extends Screen {
-    private final Minecraft minecraft;
-
     private final Signal signal;
 
     private float textOpacity = 0.0F;
 
     public SignalScreen(Signal signal) {
         super(Component.empty());
-        this.minecraft = Minecraft.getInstance();
         this.signal = signal;
     }
 

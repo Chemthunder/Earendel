@@ -2,7 +2,7 @@ package gay.chemthunder.earendel.core.index;
 
 import gay.chemthunder.earendel.core.Earendel;
 import gay.chemthunder.earendel.core.util.ESerialization;
-import gay.chemthunder.earendel.core.util.SignalPos;
+import gay.chemthunder.earendel.api.cosmic.SignalOrigin;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.world.item.ItemStack;
@@ -24,9 +24,9 @@ public interface EAttachmentTypes {
                     .initializer(() -> ItemStack.EMPTY)
     );
 
-    AttachmentType<List<SignalPos>> CASTERS = task.register("casters",
+    AttachmentType<List<SignalOrigin>> CASTERS = task.register("casters",
             builder -> builder
-                    .persistent(SignalPos.CODEC.listOf())
+                    .persistent(SignalOrigin.CODEC.listOf())
                     .syncWith(ESerialization.SIGNAL_POS_LIST_STREAM_CODEC, AttachmentSyncPredicate.all())
                     .copyOnDeath()
                     .initializer(ArrayList::new)

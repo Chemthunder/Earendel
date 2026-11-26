@@ -1,7 +1,7 @@
 package gay.chemthunder.earendel.core.util;
 
 import gay.chemthunder.earendel.api.cosmic.Signal;
-import gay.chemthunder.earendel.core.Earendel;
+import gay.chemthunder.earendel.api.cosmic.SignalOrigin;
 import gay.chemthunder.earendel.core.index.EAttachmentTypes;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.networking.clientbound.SyncCastersPayload;
@@ -36,16 +36,16 @@ import java.util.function.Consumer;
  */
 @SuppressWarnings("unused")
 public class EUtil {
-    public static List<SignalPos> cache = new ArrayList<>();
+    public static List<SignalOrigin> cache = new ArrayList<>();
 
-    public static List<SignalPos> getPoints(Level level) {
+    public static List<SignalOrigin> getPoints(Level level) {
         return new ArrayList<>(level.getAttachedOrCreate(EAttachmentTypes.CASTERS));
     }
 
     @Nullable
-    public static SignalPos getSaved(Level level, GlobalPos pos) {
-        List<SignalPos> origins = getPoints(level);
-        for (SignalPos origin : origins) {
+    public static SignalOrigin getSaved(Level level, GlobalPos pos) {
+        List<SignalOrigin> origins = getPoints(level);
+        for (SignalOrigin origin : origins) {
             if (origin.pos().equals(pos)) {
                 return origin;
             }
@@ -54,14 +54,24 @@ public class EUtil {
     }
 
     @Nullable
-    public static SignalPos getSaved(Level level, Signal signal) {
-        List<SignalPos> origins = getPoints(level);
-        for (SignalPos origin : origins) {
+    public static SignalOrigin getSaved(Level level, Signal signal) {
+        List<SignalOrigin> origins = getPoints(level);
+        for (SignalOrigin origin : origins) {
             if (origin.signal().equals(signal)) {
                 return origin;
             }
         }
         return null;
+    }
+
+    public static boolean exists(Level level, BlockPos pos) {
+        List<SignalOrigin> origins = getPoints(level);
+        for (SignalOrigin origin : origins) {
+            if (origin.pos().pos().equals(pos) || !origin.pos().pos().closerThan(pos, 3)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void syncPoints(Level level) {
@@ -75,8 +85,8 @@ public class EUtil {
         cache.clear();
     }
 
-    public static void pushPoint(Level level, SignalPos origin) {
-        List<SignalPos> origins = getPoints(level);
+    public static void pushPoint(Level level, SignalOrigin origin) {
+        List<SignalOrigin> origins = getPoints(level);
         origins.add(origin);
         level.setAttached(EAttachmentTypes.CASTERS, origins);
 
@@ -84,7 +94,7 @@ public class EUtil {
     }
 
     public static void pushPoint(Level level, ResourceKey<Level> levelKey, BlockPos pos, Signal signal) {
-        pushPoint(level, SignalPos.of(levelKey, pos, signal));
+        pushPoint(level, SignalOrigin.of(levelKey, pos, signal));
     }
 
     public static void pushPoint(Level level, ResourceKey<Level> levelKey, BlockPos pos) {
@@ -102,8 +112,8 @@ public class EUtil {
         pushPoint(level, level.dimension(), pos, signal);
     }
 
-    public static void popPoint(Level level, SignalPos origin) {
-        List<SignalPos> origins = getPoints(level);
+    public static void popPoint(Level level, SignalOrigin origin) {
+        List<SignalOrigin> origins = getPoints(level);
         origins.remove(origin);
         level.setAttached(EAttachmentTypes.CASTERS, origins);
 
@@ -111,11 +121,11 @@ public class EUtil {
     }
 
     public static void popPoint(Level level, ResourceKey<Level> levelKey, BlockPos pos, Signal signal) {
-        popPoint(level, SignalPos.of(levelKey, pos, signal));
+        popPoint(level, SignalOrigin.of(levelKey, pos, signal));
     }
 
     public static void popPoint(Level level, ResourceKey<Level> levelKey, BlockPos pos) {
-        SignalPos saved = getSaved(level, GlobalPos.of(levelKey, pos));
+        SignalOrigin saved = getSaved(level, GlobalPos.of(levelKey, pos));
 
         if (saved != null) {
             popPoint(level, saved);
@@ -126,8 +136,8 @@ public class EUtil {
         popPoint(level, level.dimension(), pos);
     }
 
-    public static void tweakPoint(Level level, BlockPos pos, Consumer<SignalPos> consumer) {
-        SignalPos saved = getSaved(level, GlobalPos.of(level.dimension(), pos));
+    public static void tweakPoint(Level level, BlockPos pos, Consumer<SignalOrigin> consumer) {
+        SignalOrigin saved = getSaved(level, GlobalPos.of(level.dimension(), pos));
 
         if (saved != null) {
             consumer.accept(saved);

@@ -7,8 +7,7 @@ import gay.chemthunder.earendel.core.index.EBlocks;
 import gay.chemthunder.earendel.core.index.EDataComponentTypes;
 import gay.chemthunder.earendel.core.index.EItems;
 import gay.chemthunder.earendel.core.util.EUtil;
-import gay.chemthunder.earendel.core.util.SignalPos;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
+import gay.chemthunder.earendel.api.cosmic.SignalOrigin;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
@@ -48,9 +47,14 @@ public class CasterInteractionEvents {
                         Signal signal = stack.get(EDataComponentTypes.SIGNAL);
 
                         if (signal != null) {
-                            EUtil.pushPoint(level, pos, signal);
-                            level.updateNeighborsAt(pos, EBlocks.CASTER);
-                            return InteractionResult.SUCCESS;
+                            if (!EUtil.exists(level, pos)) {
+                                EUtil.pushPoint(level, pos, signal);
+                                level.updateNeighborsAt(pos, EBlocks.CASTER);
+                                return InteractionResult.SUCCESS;
+                            } else {
+                                player.sendOverlayMessage(Component.literal("You are unable to link a Caster at this position!"));
+                                return InteractionResult.FAIL;
+                            }
                         }
                     }
                 }
@@ -60,14 +64,15 @@ public class CasterInteractionEvents {
                         Component component = stack.get(DataComponents.CUSTOM_NAME);
 
                         if (component != null) {
-                            SignalPos origin = EUtil.getSaved(level, GlobalPos.of(level.dimension(), pos));
+                            SignalOrigin origin = EUtil.getSaved(level, GlobalPos.of(level.dimension(), pos));
 
                             if (origin != null) {
-                                SignalPos named = new SignalPos(origin.pos(), origin.signal(), Optional.of(component.getString()));
+                                SignalOrigin named = new SignalOrigin(origin.pos(), origin.signal(), Optional.of(component.getString()));
 
                                 EUtil.popPoint(level, origin);
                                 EUtil.pushPoint(level, named);
 
+                                player.sendOverlayMessage(Component.literal("Renamed Caster to " + component.getString()));
                                 return InteractionResult.SUCCESS;
                             }
                         }

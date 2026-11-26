@@ -10,7 +10,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -39,7 +38,6 @@ import java.util.function.Function;
  */
 @Environment(EnvType.CLIENT)
 public class InterceptorScreen extends Screen {
-    private final Minecraft minecraft;
     private final ItemStack stack;
     private final GlobalPos pos;
 
@@ -63,7 +61,6 @@ public class InterceptorScreen extends Screen {
     public InterceptorScreen(ItemStack stack, GlobalPos pos) {
         super(Component.empty());
         this.pos = pos;
-        this.minecraft = Minecraft.getInstance();
         this.stack = stack;
     }
 

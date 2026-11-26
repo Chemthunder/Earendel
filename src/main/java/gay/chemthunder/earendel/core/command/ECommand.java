@@ -2,7 +2,7 @@ package gay.chemthunder.earendel.core.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import gay.chemthunder.earendel.core.util.EUtil;
-import gay.chemthunder.earendel.core.util.SignalPos;
+import gay.chemthunder.earendel.api.cosmic.SignalOrigin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -43,7 +43,7 @@ public class ECommand {
                                 .executes(context -> {
                                     ServerLevel level = context.getSource().getLevel();
 
-                                    for (SignalPos origin : EUtil.getPoints(level)) {
+                                    for (SignalOrigin origin : EUtil.getPoints(level)) {
                                         context.getSource().sendSystemMessage(
                                                 Component.literal("| ").withStyle(ChatFormatting.LIGHT_PURPLE)
                                                         .append(Component.literal(origin.pos().dimension().identifier() + " "))
